@@ -1,0 +1,94 @@
+:root {
+  --soft-gray: #BFC6C4;
+  --cream: #E8E2D8;
+  --green: #6F8F72;
+  --orange: #F2A65A;
+}
+
+/* GLOBAL */
+body {
+  background-color: var(--cream);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* HEADER */
+.app-title {
+  color: var(--green);
+  font-weight: 700;
+}
+
+/* CARD */
+.custom-card {
+  background: #ffffff;
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+}
+
+/* INPUT */
+.form-control {
+  border-radius: 12px !important;
+  border: 2px solid var(--soft-gray) !important;
+}
+
+.form-control:focus {
+  border-color: var(--green) !important;
+  box-shadow: none !important;
+}
+
+/* BUTTON */
+.btn-custom {
+  background-color: var(--green) !important;
+  color: white !important;
+  border-radius: 12px !important;
+  padding: 12px;
+  font-weight: 600;
+  transition: 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: var(--orange) !important;
+}
+
+/* TABLE */
+.table thead tr {
+  background-color: var(--green) !important;
+  color: white !important;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(111, 143, 114, 0.08);
+}
+
+/* BADGES */
+.badge-followers {
+  background-color: var(--green) !important;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+.badge-repos {
+  background-color: var(--orange) !important;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+}
+
+/* DATE BADGE (FIXED VISIBILITY) */
+.time-badge {
+  background-color: var(--soft-gray) !important;
+  color: #222 !important;
+  font-weight: 500;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+/* BIO TEXT FIX */
+.bio-text {
+  max-width: 220px;
+  font-size: 0.9rem;
+  color: #555;
+}
