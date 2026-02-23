@@ -10,14 +10,9 @@ const scrapeGithubProfile = async (url) => {
   const name = await page.locator('span.p-name').innerText();
 
   const bioElement = page.locator('.p-note');
-  const bio = (await bioElement.count()) > 0
-    ? await bioElement.innerText()
-    : null;
+  const bio = (await bioElement.count()) > 0 ? await bioElement.innerText() : null;
 
-  const followers = await page
-    .locator('a[href$="?tab=followers"] span')
-    .first()
-    .innerText();
+  const followers = await page.locator('a[href$="?tab=followers"] span').first().innerText();
 
   const following = await page
     .locator('a[href$="?tab=following"] span')

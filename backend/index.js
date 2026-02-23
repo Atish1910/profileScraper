@@ -13,4 +13,8 @@ app.use(express.json());
 
 app.use('/api/profiles', profileRoutes);
 
-app.listen(5000, () => console.log("Server running on port 5000"));
+try {
+    app.listen(5000, () => console.log("Server running on port 5000"));
+} catch (error) {
+    console.log("Error To Connect with mongoDB.. ", error)    
+}
