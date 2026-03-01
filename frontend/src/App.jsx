@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import Form from './components/Form';
+import GithubComponent from './components/GithubComponent';
 import Table from './components/Table';
 import './App.css';
 import { Toaster, toast } from 'react-hot-toast';
@@ -21,6 +21,20 @@ function App() {
     }
   };
 
+  const handleDeleteProfile = async (id) => {
+    try {
+      await axios.delete(`http://localhost:5000/api/profiles/${id}`);
+      setProfiles((profiles) => profiles.filter((p) => {
+        return p._id != id;
+      }));
+
+      toast.success("Profile Deleted Successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error(error);      
+    }
+  }
+
   useEffect(() => {
     fetchProfiles();
   }, []);
@@ -28,7 +42,6 @@ function App() {
 return (
   <div className="container py-5">
     <Toaster position="top-right" />
-
     <div className="text-center mb-5">
       <h1 className="fw-bold text-green">GitHub Profile Scraper</h1>
       <p className="text-muted">
@@ -37,7 +50,7 @@ return (
     </div>
 
     <div className="custom-card p-4 mb-4">
-      <Form fetchProfiles={fetchProfiles} />
+      <GithubComponent fetchProfiles={fetchProfiles} />
     </div>
 
     <div className="custom-card p-4">
@@ -47,7 +60,7 @@ return (
           <p className="mt-3 text-green">Fetching profiles...</p>
         </div>
       ) : (
-        <Table profiles={profiles} />
+        <Table handleDeleteProfile={handleDeleteProfile} profiles={profiles} />
       )}
     </div>
   </div>

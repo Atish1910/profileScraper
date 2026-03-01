@@ -1,4 +1,8 @@
-export default function Table({ profiles }) {
+import ModalComp from "./ModalComp";
+
+export default function Table({ profiles, handleDeleteProfile }) {
+
+
   if (profiles.length === 0) {
     return (
       <div className="text-center py-5">
@@ -7,23 +11,30 @@ export default function Table({ profiles }) {
     );
   }
 
+
   return (
     <div className="table-responsive">
       <table className="table table-bordered align-middle">
         <thead>
           <tr>
+            <th>Sr.No</th>
             <th>Username</th>
             <th>Name</th>
             <th>Followers</th>
             <th>Repos</th>
             <th>Bio</th>
             <th>Created</th>
+            <th>Actions</th>
           </tr>
         </thead>
 
         <tbody>
-          {profiles.map((p) => (
+          {
+            profiles.map((p ,i) => (
             <tr key={p._id}>
+              <td className="fw-semibold text-green">
+                {i}
+              </td>
               <td className="fw-semibold text-green">
                 {p.username}
               </td>
@@ -57,10 +68,33 @@ export default function Table({ profiles }) {
                   })}
                 </span>
               </td>
+              <td>
+                <div className="d-flex align-items-center justify-content-end ">
+                  <button className="btn btn-sm btn-outline-danger"
+                  onClick={() => {
+                    if(window.confirm("Are you sure you want to delete")){
+                      handleDeleteProfile(p._id);
+                    }
+                  }}
+                  
+                  >Delete</button>
+                  <button 
+                    className="btn btn-sm btn-outline-success ms-3"  
+                    type="button" 
+                    class="btn btn-primary" 
+                    // data-bs-toggle="modal" 
+                    // data-bs-target="#exampleModal"
+                    // onClick={() => console.log(p)}
+                    
+                  >Edit</button>
+                </div>
+              </td>
+
             </tr>
           ))}
         </tbody>
       </table>
+      <ModalComp></ModalComp>
     </div>
   );
 } 
