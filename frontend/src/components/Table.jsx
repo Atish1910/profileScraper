@@ -1,7 +1,8 @@
+import { useState } from "react";
 import ModalComp from "./ModalComp";
 
 export default function Table({ profiles, handleDeleteProfile }) {
-
+  const [selectedData, setSelectedData] = useState({});
 
   if (profiles.length === 0) {
     return (
@@ -10,7 +11,6 @@ export default function Table({ profiles, handleDeleteProfile }) {
       </div>
     );
   }
-
 
   return (
     <div className="table-responsive">
@@ -29,15 +29,10 @@ export default function Table({ profiles, handleDeleteProfile }) {
         </thead>
 
         <tbody>
-          {
-            profiles.map((p ,i) => (
+          {profiles.map((p, i) => (
             <tr key={p._id}>
-              <td className="fw-semibold text-green">
-                {i}
-              </td>
-              <td className="fw-semibold text-green">
-                {p.username}
-              </td>
+              <td className="fw-semibold text-green">{i}</td>
+              <td className="fw-semibold text-green">{p.username}</td>
 
               <td>{p.name || "N/A"}</td>
 
@@ -48,9 +43,7 @@ export default function Table({ profiles, handleDeleteProfile }) {
               </td>
 
               <td>
-                <span className="badge badge-repos px-3 py-2">
-                  {p.repos}
-                </span>
+                <span className="badge badge-repos px-3 py-2">{p.repos}</span>
               </td>
 
               <td className="text-muted" style={{ maxWidth: "250px" }}>
@@ -70,31 +63,33 @@ export default function Table({ profiles, handleDeleteProfile }) {
               </td>
               <td>
                 <div className="d-flex align-items-center justify-content-end ">
-                  <button className="btn btn-sm btn-outline-danger"
-                  onClick={() => {
-                    if(window.confirm("Are you sure you want to delete")){
-                      handleDeleteProfile(p._id);
-                    }
-                  }}
-                  
-                  >Delete</button>
-                  <button 
-                    className="btn btn-sm btn-outline-success ms-3"  
-                    type="button" 
-                    class="btn btn-primary" 
-                    // data-bs-toggle="modal" 
-                    // data-bs-target="#exampleModal"
-                    // onClick={() => console.log(p)}
-                    
-                  >Edit</button>
+                  <button
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => {
+                      if (window.confirm("Are you sure you want to delete")) {
+                        handleDeleteProfile(p._id);
+                      }
+                    }}
+                  >
+                    Delete
+                  </button>
+                  <button
+                    className="btn btn-sm btn-outline-success ms-3"
+                    type="button"
+                    class="btn btn-primary"
+                    data-bs-toggle="modal"
+                    data-bs-target="#exampleModal"
+                    onClick={() => setSelectedData(p)}
+                  >
+                    Edit
+                  </button>
                 </div>
               </td>
-
             </tr>
           ))}
         </tbody>
+        <ModalComp selectedData={selectedData}></ModalComp>
       </table>
-      <ModalComp></ModalComp>
     </div>
   );
-} 
+}
