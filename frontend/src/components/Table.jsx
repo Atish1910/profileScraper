@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ModalComp from "./ModalComp";
 
-export default function Table({ profiles, handleDeleteProfile }) {
+export default function Table({ profiles, handleDeleteProfile, handleUpdateProfile }) {
   const [selectedData, setSelectedData] = useState({});
 
   if (profiles.length === 0) {
@@ -76,7 +76,6 @@ export default function Table({ profiles, handleDeleteProfile }) {
                   <button
                     className="btn btn-sm btn-outline-success ms-3"
                     type="button"
-                    class="btn btn-primary"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
                     onClick={() => setSelectedData(p)}
@@ -88,8 +87,8 @@ export default function Table({ profiles, handleDeleteProfile }) {
             </tr>
           ))}
         </tbody>
-        <ModalComp selectedData={selectedData}></ModalComp>
       </table>
+        <ModalComp selectedData={selectedData} handleUpdateProfile={handleUpdateProfile}></ModalComp>
     </div>
   );
 }

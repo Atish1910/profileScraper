@@ -25,7 +25,7 @@ function App() {
     try {
       await axios.delete(`http://localhost:5000/api/profiles/${id}`);
       setProfiles((profiles) => profiles.filter((p) => {
-        return p._id != id;
+        return p._id !== id;
       }));
 
       toast.success("Profile Deleted Successfully");
@@ -35,9 +35,30 @@ function App() {
     }
   }
 
+  
+  const handleUpdateProfile = async (id, updatedData) => {
+    try {
+      const res = await axios.put(
+        `http://localhost:5000/api/profiles/${id}`,
+        updatedData
+      );
+
+      setProfiles((prev) =>
+        prev.map((p) => (p._id === id ? res.data : p))
+      );
+
+      toast.success("Profile Updated Successfully");
+    } catch (error) {
+      console.log(error);
+      toast.error("Update failed");
+    }
+  };
+
+
   useEffect(() => {
     fetchProfiles();
   }, []);
+
 
 return (
   <div className="container py-5">
@@ -60,7 +81,7 @@ return (
           <p className="mt-3 text-green">Fetching profiles...</p>
         </div>
       ) : (
-        <Table handleDeleteProfile={handleDeleteProfile} profiles={profiles} />
+        <Table handleDeleteProfile={handleDeleteProfile} handleUpdateProfile={handleUpdateProfile} profiles={profiles} />
       )}
     </div>
   </div>
