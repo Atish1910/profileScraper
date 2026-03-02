@@ -1,0 +1,2 @@
+🧠 Interview Explanation (Strong Version)
+“I used Zod for schema validation. First, I ensured the input is a valid URL. Then I used custom refine logic to restrict it to only GitHub user profile URLs by checking the hostname and ensuring exactly one path segment exists.”

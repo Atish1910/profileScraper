@@ -32,3 +32,68 @@ exports.getAllProfiles = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+// Delete - Delete Profile
+exports.deleteProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleteProfile = await Profile.findByIdAndDelete(id);
+    console.log("profile deleted", deleteProfile);
+
+    res.status(201).json({
+      message: "Profile deleted Successfully",
+      deleteProfile,
+    });
+  } catch (error) {
+    console.log("error to delete data ", error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.updateProfile = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const updateProfile = await Profile.findByIdAndUpdate(id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+    console.log("update result", updateProfile);
+
+    res.status(201).json({
+      message: "profile Updated Successfully",
+      updateProfile,
+    });
+  } catch (error) {
+    console.log("error to update profile", error);
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+exports.scrapeAndSavedMulipleProfiles = async (req, res) => {
+  const { urls } = req.body;
+
+  const scrapeGithubProfile = require("../services/scraper");
+
+  const results = [];
+
+  for (url of urls) {
+    try {
+      const data = await scrapeGithubProfile(url);
+      const savedProfiles = await Profile.create(data);
+      results.push(savedProfiles);
+    } catch (error) {
+      console.log("Error scrapeAndSavedMulipleProfiles", url, error.message);
+    }
+  }
+
+  res.status(201).json({
+    message: "profile scarped & saved successfully",
+    totalSaved: results.length,
+    data: results,
+  });
+};

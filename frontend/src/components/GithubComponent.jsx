@@ -2,59 +2,48 @@ import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
+import z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 /* ---------------- VALIDATION SCHEMA ---------------- */
 
 const githubSchema = z.object({
-  url: z
-    .string()
-    .min(1, "GitHub URL is required")
-    .url("Must be a valid URL")
-    .refine((value) => {
-      try {
-        const parsed = new URL(value);
-        const hostnameValid =
-          parsed.hostname === "github.com" ||
-          parsed.hostname === "www.github.com";
+  url: z.string().min(1, "Github url is require....").url("must be a valid URL").refine((value) => {
+    try {
+      const parsed = new URL(value);
+      const hostnameValid = parsed.hostname == "github.com" || parsed.hostname == "www.github.com";
 
-        // Remove first slash
-        const pathParts = parsed.pathname.split("/").filter(Boolean);
+      const pathParts = parsed.pathname.split("/").filter(Boolean);
 
-        // Only allow exactly 1 path segment (username only)
-        const isSingleUserProfile = pathParts.length === 1;
+      const isSingleProfileUser = pathParts.length == 1;
+      return isSingleProfileUser && hostnameValid;
 
-        return hostnameValid && isSingleUserProfile;
-      } catch {
-        return false;
-      }
-    }, "Only valid GitHub user profile URL allowed (e.g. https://github.com/username)"),
+    } catch (error) {
+      console.log(error);
+      return false;
+    }
+  }, "only hihtb user profile URL allowed (e.g http://github.cin/username)")
 });
 
 /* ---------------- COMPONENT ---------------- */
 
-function Form({ fetchProfiles }) {
+function GithubComponent({ fetchProfiles }) {
+  
   const [loading, setLoading] = useState(false);
-
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
   } = useForm({
-    resolver: zodResolver(githubSchema),
+    resolver:zodResolver(githubSchema)
   });
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
 
-      await axios.post(
-        "http://localhost:5000/api/profiles/scrape",
-        { url: data.url }
-      );
-
+      await axios.post("http://localhost:5000/api/profiles/scrape",{ url: data.url});
       toast.success("Profile Scraped Successfully!");
       reset();
       fetchProfiles();
@@ -67,7 +56,6 @@ function Form({ fetchProfiles }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="row g-3">
-
       <div className="col-md-9">
         <input
           type="text"
@@ -105,4 +93,4 @@ function Form({ fetchProfiles }) {
   );
 }
 
-export default Form;
+export default GithubComponent;
