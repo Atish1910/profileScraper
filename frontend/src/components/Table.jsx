@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import ModalComp from "./ModalComp";
 
-export default function Table({ profiles, handleDeleteProfile, handleUpdateProfile }) {
+function Table({ profiles, handleDeleteProfile, handleUpdateProfile }) {
   const [selectedData, setSelectedData] = useState({});
 
   const openModal = (p) => {
     setSelectedData(p);
   }
+  console.log("Table rendered");
 
   if (profiles.length === 0) {
     return (
@@ -24,6 +25,7 @@ export default function Table({ profiles, handleDeleteProfile, handleUpdateProfi
             <th>Sr.No</th>
             <th>Username</th>
             <th>Name</th>
+            <th>Following</th>
             <th>Followers</th>
             <th>Repos</th>
             <th>Bio</th>
@@ -43,6 +45,12 @@ export default function Table({ profiles, handleDeleteProfile, handleUpdateProfi
               <td>
                 <span className="badge badge-followers px-3 py-2">
                   {p.followers}
+                </span>
+              </td>
+
+              <td>
+                <span className="badge badge-followers px-3 py-2">
+                  {p.following}
                 </span>
               </td>
 
@@ -96,3 +104,6 @@ export default function Table({ profiles, handleDeleteProfile, handleUpdateProfi
     </div>
   );
 }
+
+
+export default memo(Table);

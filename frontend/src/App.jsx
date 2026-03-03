@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import axios from 'axios';
 import GithubComponent from './components/GithubComponent';
 import Table from './components/Table';
@@ -9,19 +9,20 @@ function App() {
   const [profiles, setProfiles] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const fetchProfiles = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/profiles');
-      setProfiles(res.data);
-    } catch (error) {
-      toast.error("Failed to fetch profiles",error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const fetchProfiles = useCallback( async () => {
+      try {
+        setLoading(true);
+        console.log("yes its rendering fetchProfiles");
+        const res = await axios.get('http://localhost:5000/api/profiles');
+        setProfiles(res.data);
+      } catch (error) {
+        toast.error("Failed to fetch profiles",error);
+      } finally {
+        setLoading(false);
+      }
+    } , []);
 
-  const handleDeleteProfile = async (id) => {
+  const handleDeleteProfile = useCallback( async (id) => {
     try {
       await axios.delete(`http://localhost:5000/api/profiles/${id}`);
       setProfiles((profiles) => profiles.filter((p) => {
@@ -33,10 +34,10 @@ function App() {
       console.log(error);
       toast.error(error);      
     }
-  }
+  }, []);
 
   
-  const handleUpdateProfile = async (id, updatedData) => {
+  const handleUpdateProfile = useCallback( async (id, updatedData) => {
     // debugger;
     try {
       const res = await axios.put(
@@ -56,11 +57,11 @@ function App() {
       console.log(error);
       toast.error("Update failed");
     }
-  };
+  }, []);
 
   useEffect(() => {
     fetchProfiles();
-  }, []);
+  }, [fetchProfiles]);
 
 
 return (
