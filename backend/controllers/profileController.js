@@ -56,10 +56,9 @@ exports.updateProfile = async (req, res) => {
   try {
     const { id } = req.params;
 
-    const updateProfile = await Profile.findByIdAndUpdate(id, req.body, {
-      new: true,
-      runValidators: true,
-    });
+    const updateProfile = await Profile.findByIdAndUpdate(id, req.body, {new: true},
+      // runValidators: true,
+      );
     console.log("update result", updateProfile);
 
     res.status(201).json({

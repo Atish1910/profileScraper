@@ -22,18 +22,23 @@ const ModalComp = ({ selectedData , handleUpdateProfile}) => {
     }
   }, [selectedData, reset]);
 
-  const onSubmit = (data) => {
-    console.log(data);
-    handleUpdateProfile(selectedData._id, data);
-    reset();
-  }
+  const onSubmit = async (data) => {
+  await handleUpdateProfile(selectedData._id, data);
+
+  // Close Bootstrap modal manually
+  const modalElement = document.getElementById("exampleModal");
+  const modalInstance = window.bootstrap.Modal.getInstance(modalElement);
+  modalInstance.hide();
+
+  reset();
+};
 
   return (
     <>
       <div
         className="modal fade"
         id="exampleModal"
-        tabindex="-1"
+        tabIndex="-1"
         aria-labelledby="exampleModalLabel"
         aria-hidden="true"
       >

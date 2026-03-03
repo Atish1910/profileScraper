@@ -4,6 +4,10 @@ import ModalComp from "./ModalComp";
 export default function Table({ profiles, handleDeleteProfile, handleUpdateProfile }) {
   const [selectedData, setSelectedData] = useState({});
 
+  const openModal = (p) => {
+    setSelectedData(p);
+  }
+
   if (profiles.length === 0) {
     return (
       <div className="text-center py-5">
@@ -78,7 +82,7 @@ export default function Table({ profiles, handleDeleteProfile, handleUpdateProfi
                     type="button"
                     data-bs-toggle="modal"
                     data-bs-target="#exampleModal"
-                    onClick={() => setSelectedData(p)}
+                    onClick={() => openModal(p)}
                   >
                     Edit
                   </button>
